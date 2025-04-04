@@ -46,275 +46,261 @@ class _AddEditEmployeeScreenState extends State<AddEditEmployeeScreen> {
   }
 
   void _selectJoinDate(BuildContext context) async {
-  DateTime now = DateTime.now();
-  DateTime nextMonday = now.add(Duration(days: (8 - now.weekday) % 7));
-  DateTime nextTuesday = now.add(Duration(days: (9 - now.weekday) % 7));
-  DateTime afterOneWeek = now.add(const Duration(days: 7));
+    DateTime now = DateTime.now();
+    DateTime nextMonday = now.add(Duration(days: (8 - now.weekday) % 7));
+    DateTime nextTuesday = now.add(Duration(days: (9 - now.weekday) % 7));
+    DateTime afterOneWeek = now.add(const Duration(days: 7));
 
-  DateTime? selectedDate = await showDialog<DateTime>(
-    context: context,
-    builder: (BuildContext context) {
-      DateTime tempDate = _joinDate ?? now;
+    DateTime? selectedDate = await showDialog<DateTime>(
+      context: context,
+      builder: (BuildContext context) {
+        DateTime tempDate = _joinDate ?? now; // Default to today when adding a new employee
 
-      return StatefulBuilder(
-        builder: (context, setState) {
-          return AlertDialog(
-            content: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              content: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: isSameDay(tempDate, now) ? Colors.blue.shade900 : Colors.grey,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() => tempDate = now);
+                              },
+                              child: const Text('Today', style: TextStyle(color: Colors.white)),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: isSameDay(tempDate, nextMonday) ? Colors.blue.shade900 : Colors.grey,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() => tempDate = nextMonday);
+                              },
+                              child: const Text('Next Monday', style: TextStyle(color: Colors.white)),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: isSameDay(tempDate, nextTuesday) ? Colors.blue.shade900 : Colors.grey,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() => tempDate = nextTuesday);
+                              },
+                              child: const Text('Next Tuesday', style: TextStyle(color: Colors.white)),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: isSameDay(tempDate, afterOneWeek) ? Colors.blue.shade900 : Colors.grey,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() => tempDate = afterOneWeek);
+                              },
+                              child: const Text('After 1 Week', style: TextStyle(color: Colors.white)),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        height: 300,
+                        child: CalendarDatePicker(
+                          initialDate: tempDate,
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2100),
+                          onDateChanged: (date) {
+                            setState(() => tempDate = date);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              actions: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: appColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                            onPressed: () {
-                              setState(() => tempDate = now);
-                            },
-                            child: const Text(
-                              'Today',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: appColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                            onPressed: () {
-                              setState(() => tempDate = nextMonday);
-                            },
-                            child: const Text(
-                              'Next Monday',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
+                        Icon(Icons.calendar_today, color: appColor),
+                        Text(
+                          DateFormat("d MMM, y").format(tempDate),
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 20),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: appColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                            onPressed: () {
-                              setState(() => tempDate = nextTuesday);
-                            },
-                            child: const Text(
-                              'Next Tuesday',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('Cancel'),
                         ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: appColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                            onPressed: () {
-                              setState(() => tempDate = afterOneWeek);
-                            },
-                            child: const Text(
-                              'After 1 Week',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, tempDate),
+                          child: const Text('OK'),
                         ),
                       ],
-                    ),
-                    const SizedBox(height: 10),
-                    SizedBox(
-                      height: 300,
-                      child: CalendarDatePicker(
-                        initialDate: tempDate,
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(2100),
-                        onDateChanged: (date) {
-                          setState(() => tempDate = date);
-                        },
-                      ),
                     ),
                   ],
                 ),
-              ),
-            ),
-            actions: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(Icons.calendar_today, color: appColor),
-                      Text(
-                    DateFormat("d MMM, y").format(tempDate), 
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                  ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () => Navigator.pop(context, tempDate),
-                child: const Text('OK'),
-              ),
-                    ],
-                  )
-                ],
-              )
-            ],
-          );
-        },
-      );
-    },
-  );
+              ],
+            );
+          },
+        );
+      },
+    );
 
-  if (selectedDate != null) {
-    setState(() {
-      _joinDate = selectedDate;
-    });
+    if (selectedDate != null) {
+      setState(() {
+        _joinDate = selectedDate;
+      });
+    }
   }
-}
+
+  // Helper function to compare dates without time component
+  bool isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year && date1.month == date2.month && date1.day == date2.day;
+  }
 
   void _selectEndDate(BuildContext context) async {
-  DateTime now = DateTime.now();
+    DateTime now = DateTime.now();
   
-  DateTime? selectedDate = await showDialog<DateTime>(
-    context: context,
-    builder: (BuildContext context) {
-      DateTime tempDate = _endDate ?? now;
+    DateTime? selectedDate = await showDialog<DateTime>(
+      context: context,
+      builder: (BuildContext context) {
+        DateTime? tempDate = _endDate; // Default is "No Date"
 
-      return StatefulBuilder(
-        builder: (context, setState) {
-          return AlertDialog(
-            content: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              content: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: tempDate == null ? appColor : appColorLight,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() => tempDate = null);
+                              },
+                              child: Text('No Date', style: TextStyle(color:tempDate == null ? Colors.white:appColor)),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: tempDate == now ? appColor : appColorLight,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() => tempDate = now);
+                              },
+                              child: Text('Today', style: TextStyle(color:tempDate == null ?appColor:Colors.white)),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        height: 300,
+                        child: CalendarDatePicker(
+                          initialDate: tempDate ?? now,
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2100),
+                          onDateChanged: (date) {
+                            setState(() => tempDate = date);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              actions: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: appColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.pop(context, null); // Clear the date
-                            },
-                            child: const Text(
-                              'No Date',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: appColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                            onPressed: () {
-                              setState(() => tempDate = now);
-                            },
-                            child: const Text(
-                              'Today',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
+                        Icon(Icons.calendar_today, color: appColor),
+                        Text(
+                          tempDate == null ? 'No date' : DateFormat("d MMM, y").format(tempDate!),
+                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10),
-                    SizedBox(
-                      height: 300,
-                      child: CalendarDatePicker(
-                        initialDate: tempDate,
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(2100),
-                        onDateChanged: (date) {
-                          setState(() => tempDate = date);
-                        },
-                      ),
+                    Row(
+                      children: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('Cancel'),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, tempDate),
+                          child: const Text('OK'),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ),
-            ),
-            actions: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(Icons.calendar_today, color: appColor),
-                      Text(
-                        DateFormat("d MMM, y").format(tempDate),
-                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text('Cancel'),
-                      ),
-                      TextButton(
-                        onPressed: () => Navigator.pop(context, tempDate),
-                        child: const Text('OK'),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          );
-        },
-      );
-    },
-  );
+              ],
+            );
+          },
+        );
+      },
+    );
 
-  setState(() {
-    _endDate = selectedDate;
-  });
-}
-
+    setState(() {
+      _endDate = selectedDate;
+    });
+  }
 
 String _formatDate(DateTime? date) {
   if (date == null) return 'No date'; // Return "No date" when endDate is null
