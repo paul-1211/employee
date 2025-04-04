@@ -59,6 +59,7 @@ class _AddEditEmployeeScreenState extends State<AddEditEmployeeScreen> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
+              backgroundColor: Colors.white,
               content: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: SingleChildScrollView(
@@ -71,7 +72,7 @@ class _AddEditEmployeeScreenState extends State<AddEditEmployeeScreen> {
                           Expanded(
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: isSameDay(tempDate, now) ? Colors.blue.shade900 : Colors.grey,
+                                backgroundColor: isSameDay(tempDate, now) ? appColor : appColorLight,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -79,14 +80,14 @@ class _AddEditEmployeeScreenState extends State<AddEditEmployeeScreen> {
                               onPressed: () {
                                 setState(() => tempDate = now);
                               },
-                              child: const Text('Today', style: TextStyle(color: Colors.white)),
+                              child:  Text('Today', style: TextStyle(color:isSameDay(tempDate, now) ? Colors.white:appColor)),
                             ),
                           ),
                           const SizedBox(width: 10),
                           Expanded(
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: isSameDay(tempDate, nextMonday) ? Colors.blue.shade900 : Colors.grey,
+                                backgroundColor: isSameDay(tempDate, nextMonday) ? appColor : appColorLight,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -94,7 +95,7 @@ class _AddEditEmployeeScreenState extends State<AddEditEmployeeScreen> {
                               onPressed: () {
                                 setState(() => tempDate = nextMonday);
                               },
-                              child: const Text('Next Monday', style: TextStyle(color: Colors.white)),
+                              child:  Text('Next Monday', style: TextStyle(color:isSameDay(tempDate, nextMonday) ? Colors.white:appColor)),
                             ),
                           ),
                         ],
@@ -106,7 +107,7 @@ class _AddEditEmployeeScreenState extends State<AddEditEmployeeScreen> {
                           Expanded(
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: isSameDay(tempDate, nextTuesday) ? Colors.blue.shade900 : Colors.grey,
+                                backgroundColor: isSameDay(tempDate, nextTuesday) ? appColor : appColorLight,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -114,14 +115,14 @@ class _AddEditEmployeeScreenState extends State<AddEditEmployeeScreen> {
                               onPressed: () {
                                 setState(() => tempDate = nextTuesday);
                               },
-                              child: const Text('Next Tuesday', style: TextStyle(color: Colors.white)),
+                              child:  Text('Next Tuesday', style: TextStyle(color:isSameDay(tempDate, nextTuesday)? Colors.white:appColor)),
                             ),
                           ),
                           const SizedBox(width: 10),
                           Expanded(
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: isSameDay(tempDate, afterOneWeek) ? Colors.blue.shade900 : Colors.grey,
+                                backgroundColor: isSameDay(tempDate, afterOneWeek) ? appColor : appColorLight,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -129,7 +130,7 @@ class _AddEditEmployeeScreenState extends State<AddEditEmployeeScreen> {
                               onPressed: () {
                                 setState(() => tempDate = afterOneWeek);
                               },
-                              child: const Text('After 1 Week', style: TextStyle(color: Colors.white)),
+                              child:  Text('After 1 Week', style: TextStyle(color:isSameDay(tempDate, afterOneWeek) ? Colors.white:appColor)),
                             ),
                           ),
                         ],
@@ -207,6 +208,7 @@ class _AddEditEmployeeScreenState extends State<AddEditEmployeeScreen> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
+              backgroundColor: Colors.white,
               content: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: SingleChildScrollView(
